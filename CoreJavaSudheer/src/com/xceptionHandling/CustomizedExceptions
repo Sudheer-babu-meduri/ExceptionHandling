@@ -1,0 +1,132 @@
+package com.ops;
+
+class BankEncapsulated {
+
+    private String accountHolderName;
+    private String accountNumber;
+    private double balance;
+
+    public void setDetails(String accountHolderName, String accountNumber, double balance) {
+
+        if (balance < 0) {
+            throw new IllegalArgumentException("Initial balance cannot be negative");
+        }
+
+        this.accountHolderName = accountHolderName;
+        this.accountNumber = accountNumber;
+        this.balance = balance;
+    }
+
+    void withdraw(double amount) {
+
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Withdraw amount must be positive");
+        }
+
+        if (amount > balance) {
+            throw new IllegalArgumentException("Insufficient balance");
+        }
+
+        balance -= amount;
+        System.out.println("Withdrawal amount: " + amount);
+        System.out.println("Current balance: " + balance);
+    }
+
+    void deposit(double amount) {
+
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Deposit amount must be positive");
+        }
+
+        balance += amount;
+        System.out.println("Deposited amount: " + amount);
+        System.out.println("Current balance: " + balance);
+    }
+
+    void getdetails() {
+        System.out.println("Account Holder Name: " + accountHolderName);
+        System.out.println("Account Number: " + accountNumber);
+        System.out.println("Current balance: " + balance);
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+}
+
+public class BankEncapsulatede1 {
+
+    public static void main(String[] args) {
+
+        Scanner s = new Scanner(System.in);
+
+        try {
+            System.out.println("Enter account holder name:");
+            String name = s.nextLine();
+
+            System.out.println("Enter account number:");
+            String number = s.next();
+
+            System.out.println("Enter initial balance:");
+            double balance = s.nextDouble();
+
+            BankEncapsulated be = new BankEncapsulated();
+            be.setDetails(name, number, balance);
+
+            boolean flag = true;
+
+            while (flag) {
+
+                System.out.println("\n***** Enter Your Choice *****");
+                System.out.println("1. Show Account Details");
+                System.out.println("2. Balance Checking");
+                System.out.println("3. Withdraw Amount");
+                System.out.println("4. Deposit Amount");
+                System.out.println("5. Exit");
+
+                int choice = s.nextInt();
+
+                try {
+                    switch (choice) {
+
+                        case 1:
+                            be.getdetails();
+                            break;
+
+                        case 2:
+                            System.out.println("Your Account Balance: " + be.getBalance());
+                            break;
+
+                        case 3:
+                            System.out.println("Enter withdraw amount:");
+                            double withdraw = s.nextDouble();
+                            be.withdraw(withdraw);
+                            break;
+
+                        case 4:
+                            System.out.println("Enter deposit amount:");
+                            double deposit = s.nextDouble();
+                            be.deposit(deposit);
+                            break;
+
+                        case 5:
+                            System.out.println("Thank you for interacting with us");
+                            flag = false;
+                            break;
+
+                        default:
+                            throw new IllegalArgumentException("Invalid menu option selected");
+                    }
+                } catch (IllegalArgumentException e) {
+                    // 🔹 controlled failure, program continues
+                    System.out.println("Error: " + e.getMessage());
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println("Fatal Error: " + e.getMessage());
+        } finally {
+            s.close();
+        }
+    }
+}
