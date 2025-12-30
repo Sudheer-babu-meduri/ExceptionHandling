@@ -12,10 +12,16 @@ public class TestException {
 		 System.out.println("Enter b value");
 		 int b=s.nextInt();
 		 s.close();
-		 if(b==0) {
-			 throw new  ArithmeticException(" you shouldn't Divide by ZERO");
-		 }else {
-		 System.out.println(a/b);
-		 } 
+		try {
+            if (b == 0) {
+                throw new ArithmeticException("You shouldn't divide by ZERO");
+            } else {
+                System.out.println("Result: " + a / b);
+            }
+        } catch (ArithmeticException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+		System.out.println("SUDHEER BABU MEDURI");
 	}
 }
+
