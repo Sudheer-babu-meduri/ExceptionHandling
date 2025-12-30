@@ -18,12 +18,18 @@ public class TestException22 {
 		Scanner s=new Scanner(System.in);
 		System.out.println("enter age ");
 		int age=s.nextInt();
-		if(age>=18) {
-			System.out.println("You are eligible to vote");
-		}
-		else {
-			throw new SudheerException("Future Undi");
-		}
+		try {
+            if (age >= 18) {
+                System.out.println("You are eligible to vote");
+            } else {
+                throw new SudheerException("Future Undi");
+            }
+        } catch (SudheerException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        System.out.println("Thank you!");
 	}
 
 }
+
