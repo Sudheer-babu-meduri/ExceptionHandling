@@ -1,4 +1,12 @@
-package com.ops;
+package com.ExceptionHandling;
+
+import java.util.Scanner;
+
+class SudheerBabu extends RuntimeException{
+	SudheerBabu(String s){
+		super(s);
+	}
+}
 
 class BankEncapsulated {
 
@@ -8,8 +16,20 @@ class BankEncapsulated {
 
     public void setDetails(String accountHolderName, String accountNumber, double balance) {
 
+        // Validate name: only letters and spaces allowed
+        if (accountHolderName == null || !accountHolderName.matches("[a-zA-Z ]+")) {
+            throw new SudheerBabu("Name must contain only letters and spaces");
+ 
+        }
+
+        // Validate account number: exactly 12 digits
+        if (accountNumber == null || !accountNumber.matches("\\d{10}")) {
+            throw new SudheerBabu("Account number must contain exactly 12 digits");
+        }
+
+        // Validate balance: should not be negative
         if (balance < 0) {
-            throw new IllegalArgumentException("Initial balance cannot be negative");
+            throw new SudheerBabu("Initial balance cannot be negative");
         }
 
         this.accountHolderName = accountHolderName;
@@ -17,14 +37,15 @@ class BankEncapsulated {
         this.balance = balance;
     }
 
+
     void withdraw(double amount) {
 
         if (amount <= 0) {
-            throw new IllegalArgumentException("Withdraw amount must be positive");
+            throw new SudheerBabu("Withdraw amount must be positive");
         }
 
         if (amount > balance) {
-            throw new IllegalArgumentException("Insufficient balance");
+            throw new SudheerBabu("Insufficient balance ra babu");
         }
 
         balance -= amount;
@@ -35,7 +56,7 @@ class BankEncapsulated {
     void deposit(double amount) {
 
         if (amount <= 0) {
-            throw new IllegalArgumentException("Deposit amount must be positive");
+            throw new SudheerBabu("Deposit amount must be positive");
         }
 
         balance += amount;
@@ -54,7 +75,7 @@ class BankEncapsulated {
     }
 }
 
-public class BankEncapsulatede1 {
+public class CustmozedException {
 
     public static void main(String[] args) {
 
@@ -89,36 +110,33 @@ public class BankEncapsulatede1 {
                 try {
                     switch (choice) {
 
-                        case 1:
-                            be.getdetails();
-                            break;
+                        case 1 -> be.getdetails();
+                            
 
-                        case 2:
+                        case 2 ->{
                             System.out.println("Your Account Balance: " + be.getBalance());
-                            break;
+                        }
 
-                        case 3:
-                            System.out.println("Enter withdraw amount:");
-                            double withdraw = s.nextDouble();
-                            be.withdraw(withdraw);
-                            break;
+                        case 3 -> {
+                        System.out.println("Enter withdraw amount:");
+                        double withdraw = s.nextDouble();
+                        be.withdraw(withdraw);
+                        }    
 
-                        case 4:
-                            System.out.println("Enter deposit amount:");
-                            double deposit = s.nextDouble();
-                            be.deposit(deposit);
-                            break;
+                        case 4 ->{ System.out.println("Enter deposit amount:");
+                        double deposit = s.nextDouble();
+                        be.deposit(deposit);
+                        }      
 
-                        case 5:
+                        case 5 ->{
                             System.out.println("Thank you for interacting with us");
                             flag = false;
-                            break;
-
-                        default:
-                            throw new IllegalArgumentException("Invalid menu option selected");
+                        }
+                        default ->{
+                            throw new SudheerBabu("Invalid menu option selected");
+                        }
                     }
-                } catch (IllegalArgumentException e) {
-                    // 🔹 controlled failure, program continues
+                } catch (SudheerBabu e) {
                     System.out.println("Error: " + e.getMessage());
                 }
             }
@@ -128,5 +146,6 @@ public class BankEncapsulatede1 {
         } finally {
             s.close();
         }
+        
     }
 }
